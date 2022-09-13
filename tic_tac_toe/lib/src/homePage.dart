@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tic_tac_toe/src/data.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,10 +37,12 @@ class _HomePageState extends State<HomePage> {
   Widget box(int i, int j) {
     return GestureDetector(
       onTap: () {
-        click(i, j);
-        win(i, j);
-        print('jugadorX $player');
-        print('jugadorO $player');
+        // if(sw1)
+        // if (sw1) {
+          click(i, j);
+          sw1 = false;
+        // }
+        // win(i, j);
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -72,7 +75,8 @@ class _HomePageState extends State<HomePage> {
             content: const Text('Restart?'),
             actions: [
               TextButton(
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  onPressed: () => SystemNavigator.pop(),
+                  // Navigator.pop(context, 'Cancel'),
                   child: const Text('Cancel')),
               TextButton(
                   onPressed: () {
@@ -89,14 +93,15 @@ class _HomePageState extends State<HomePage> {
     var col = 0, row = 0, diag = 0, rdiag = 0;
     var n = 3;
     var playerAux = matrix[x][y];
-    for (int i = 0; i < n ; i++) {
+    for (int i = 0; i < n; i++) {
       if (matrix[x][i] == playerAux) col++;
       if (matrix[i][y] == playerAux) row++;
       if (matrix[i][i] == playerAux) diag++;
       if (matrix[i][n - i - 1] == playerAux) rdiag++;
     }
-    if (col == n || row == n || diag == n || rdiag == n) alert(context, '$playerAux win');
-      // print('$playerAux win');
+    if (col == n || row == n || diag == n || rdiag == n)
+      alert(context, '$playerAux win');
+    // print('$playerAux win');
     // if (playerX.length == 5 || playerO.length == 5) {
     //   print('gano');
     //   alert(context);
@@ -109,7 +114,7 @@ class _HomePageState extends State<HomePage> {
       matrix[i][j] = player;
       player == 'X' ? player = 'O' : player = 'X';
     });
-
+    win(i, j);
     // sw ? playerX += '$i' : playerO += '$i';
     // sw = !sw;
     // if(sw){
